@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Quitar Tarea</h2>
+<mat-dialog-content>
+  Desea quitar esta tarea?
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="closeDialog('NO')">No</button>
+  <button mat-button  cdkFocusInitial  (click)="closeDialog('Si')">Si</button>
+</mat-dialog-actions>
