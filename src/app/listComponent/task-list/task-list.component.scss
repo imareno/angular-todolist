@@ -1,42 +1,12 @@
-.container {
-	display: flex;
-	justify-content: center;
-	padding-top: 30px;
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem;
 }
 
-.card-layout {
-	width: 600px;
+.custom-card {
+  width: 320px;
 }
-
-.space{
-	margin-left: 0.5rem;
-}
-
-/*.listing {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.error-container {
-	display: flex;
-	justify-content: center;
-
-	p {
-		color: red;
-	}
-}*/
-
-/*.warning-container {
-	background-color: #fff3cd;
-	color: #856404;
-	border: 1px solid #ffc107;
-	padding-left: 10px;
-	border-radius: 6px;
-	margin-top: 5px;
-	margin-bottom: 20px;
-}
-
-.crossover {
-	text-decoration: line-through;
-}*/

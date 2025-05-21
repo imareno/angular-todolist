@@ -1,16 +1,17 @@
-import { Component, inject, model, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppService } from '../../app.service';
 import { ITask } from '../../models';
+import { Router } from '@angular/router';
+import { TaskItemComponent } from '../task-item/task-item.component';
 
 
 @Component({
@@ -21,17 +22,18 @@ import { ITask } from '../../models';
 		MatIconModule, 
 		MatInputModule, 
 		MatCardModule, 
-		MatCheckboxModule, 
+		 
 		FormsModule, 
 		CommonModule, 
 		MatDialogModule, 
 		ReactiveFormsModule,
-		MatTooltipModule
+		MatTooltipModule,
+		TaskItemComponent
 	],
 	templateUrl: './task-list.component.html',
 	styleUrl: './task-list.component.scss'
 })
-export class TaskListComponent implements OnInit, OnDestroy {
+export class TaskListComponent implements OnInit {
 
 	todoList: ITask[];
 	formTask: FormGroup;
@@ -39,47 +41,20 @@ export class TaskListComponent implements OnInit, OnDestroy {
 	constructor(
 		private service: AppService,
 		private dialog: MatDialog,
-		private fb: FormBuilder
+		private router: Router
 	) {
 		this.formTask = new FormGroup({});
 		this.todoList = this.service.getTaskList();
 	}
 
 	ngOnInit(): void {
-		this.getFormBuilder();
-	}
-
-	getFormBuilder() {
-		this.formTask = this.fb.group({
-			id: [this.todoList.length + 1],
-			nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15),]],
-			descripcion: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15),]],
-			finalizado: [false]
-		});
-	}
-
-	selectedIndex: number = -1;
-
-	save(): void {
-		if (this.formTask.valid){
-			this.service.addNewTask(this.formTask.value);
-			this.todoList = this.service.getTaskList();
-			this.cancel();
-		}
-	}
-
-	edit(){
-
+		
 	}
 	
-	cancel(){
-		this.formTask.reset();
-	}
+	selectedIndex: number = -1;
 
-	checkmarkChanged(id: number): void {
-		this.todoList = this.todoList.filter((i) => i.id === id);
-	}
 
+	
 
 	deleteConfirmation(index: number): void {
 		/*this.dialog.open(ConfirmationComponent, {
@@ -91,9 +66,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
 		});*/
 	}
 
-	editItem(index: number, item: any): void {
-		this.selectedIndex = index;
-
+	editItem(obj:ITask) {
+		this.router.navigate(['/newTask', obj.id, obj.nombre, obj.descripcion]);
+		return;
 	}
 
 	updateItem() {
@@ -103,6 +78,5 @@ export class TaskListComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	ngOnDestroy(): void {
-	}
+	
 }

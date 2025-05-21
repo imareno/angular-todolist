@@ -1,0 +1,37 @@
+.custom-card {
+  max-width: 350px;
+  margin: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.subtitle {
+  margin: 0.2rem 0 1rem 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.description {
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+}
+
+.read-more {
+  font-weight: bold;
+  color: #e91e63;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
