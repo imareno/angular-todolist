@@ -8,10 +8,12 @@ import { ReactiveFormsModule, FormGroup, FormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { AppService } from '../../app.service';
+
 import { ITask } from '../../models';
 import { Router } from '@angular/router';
 import { TaskItemComponent } from '../task-item/task-item.component';
+import { TaskService } from '../task.service';
+import { ConfirmationComponent } from '../../confirmation/confirmation.component';
 
 
 @Component({
@@ -39,7 +41,7 @@ export class TaskListComponent implements OnInit {
 	formTask: FormGroup;
 
 	constructor(
-		private service: AppService,
+		private service: TaskService,
 		private dialog: MatDialog,
 		private router: Router
 	) {
@@ -48,35 +50,31 @@ export class TaskListComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		
 	}
 	
 	selectedIndex: number = -1;
 
+    onTaskEditing(task:ITask ){
+       this.router.navigate(['/newTask', task.id, task.nombre, task.descripcion]);
+	}
 
-	
-
-	deleteConfirmation(index: number): void {
-		/*this.dialog.open(ConfirmationComponent, {
+	onTaskDelete(id:string){
+		this.dialog.open(ConfirmationComponent, {
 		  width: '250px'
 		}).afterClosed().subscribe((res: any) => {
 		  if (res === 'Si') {
-			this.todoList().splice(index, 1);
+			this.service.deleteTask(id);
 		  }
-		});*/
+		});
 	}
 
-	editItem(obj:ITask) {
-		this.router.navigate(['/newTask', obj.id, obj.nombre, obj.descripcion]);
-		return;
+	onTaskComplete(id:string){
+		this.dialog.open(ConfirmationComponent, {
+		  width: '250px'
+		}).afterClosed().subscribe((res: any) => {
+		  if (res === 'Si') {
+			this.service.completeTask(id);
+		  }
+		});
 	}
-
-	updateItem() {
-		if (this.selectedIndex >= 0) {
-			//this.todoList()[this.selectedIndex].descripcion = this.description();
-			this.selectedIndex = -1;
-		}
-	}
-
-	
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter  } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,7 +23,10 @@ import { ITask } from '../../models';
 
 export class TaskItemComponent {
 
-   @Input() task!: ITask;
+  @Input() task!: ITask;
+  @Output() onTaskEditing = new EventEmitter<ITask>();
+  @Output() onTaskDelete = new EventEmitter<string>();
+  @Output() onTaskComplete = new EventEmitter<string>();
 
   ngOnInit(): void { }
 
@@ -38,7 +41,15 @@ export class TaskItemComponent {
 
 edit(task:ITask){
   console.log(task);
-  this.router.navigate(['/newTask', task.id, task.nombre, task.descripcion]);
+  this.onTaskEditing.emit(task);
+  
+}
+delete(task:ITask){
+  this.onTaskDelete.emit(task.id);
 }
   
+complete(task:ITask){
+  this.onTaskComplete.emit(task.id);
+}
+
 }

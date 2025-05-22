@@ -10,7 +10,13 @@
 			
 			<div class="card-container">
 
-				<task-item *ngFor="let tarea of todoList" [task]="tarea"></task-item>
+				<task-item *ngFor="let tarea of todoList" 
+				           [task]="tarea" 
+				           (onTaskEditing)="onTaskEditing($event)" 
+						   (onTaskDelete)="onTaskDelete($event)"
+						   (onTaskComplete)="onTaskComplete($event)"
+						   >
+				</task-item>
 
 			
 </div>

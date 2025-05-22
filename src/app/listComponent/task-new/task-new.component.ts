@@ -5,10 +5,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AppService } from '../../app.service';
+
 import { ITask } from '../../models';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-task-new-component',
@@ -20,7 +21,7 @@ export class TaskNewComponent implements OnInit {
 
 
     constructor(
-		private service: AppService,
+		private service: TaskService,
 		private formbuilder: FormBuilder,
 		private route: ActivatedRoute,
 		private router:Router
@@ -48,15 +49,7 @@ editing: boolean = false;
     checkmarkChanged(id: string): void {
      this.todoList = this.todoList.filter((i) => i.id === id);
 	}
-  	deleteConfirmation(index: number): void {
-		/*this.dialog.open(ConfirmationComponent, {
-		  width: '250px'
-		}).afterClosed().subscribe((res: any) => {
-		  if (res === 'Si') {
-			this.todoList().splice(index, 1);
-		  }
-		});*/
-	}
+  	
 	save(): void {
 		if (this.formTask.valid) {
 			this.editing ? this.edit() : this.create();
@@ -65,6 +58,7 @@ editing: boolean = false;
 	create() {
 		this.service.addNewTask(this.formTask.value);
 		this.formTask.reset();
+		this.formBuilder("","","");
 		return;
 	}
 	edit() {
@@ -73,9 +67,6 @@ editing: boolean = false;
 		return;
 	}
 	cancel = () => this.editing ? this.router.navigate(['/todoList']) : this.formTask.reset();
-
-	
-    
 
   formBuilder(id:string|null, nombre:string|null, detalle:string|null) {
     const nuevoId = uuidv4();

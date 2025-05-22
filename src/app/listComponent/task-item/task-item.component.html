@@ -1,23 +1,4 @@
-
-<!--
-<div class="ms-2 me-auto">
-						<div class="fw-bold">
-							<mat-checkbox (click)="checkmarkChanged(task.id)" [disabled]="false">
-								<span [ngClass]="task.finalizado ? 'crossover' : ''">{{ task.nombre }}</span>
-							</mat-checkbox>
-						</div>
-						{{ task.descripcion }}
-					</div>
-					
-<span>
-							<button (click) = "edit(task)" class="btn btn-warning btn-sm"><mat-icon>edit</mat-icon></button>
-							<button class="btn btn-danger btn-sm space"><mat-icon>restore_from_trash</mat-icon></button>
-</span>
--->
-
-
 <mat-card class="custom-card">
-  
   <mat-card-content>
     <h2 class="title">{{task.nombre}}</h2>
     <p class="description">
@@ -26,16 +7,16 @@
   </mat-card-content>
 
   <mat-card-actions class="card-actions">
-	<button *ngIf="task.finalizado" mat-button  class="read-more">Concluida</button>
+    <button *ngIf="task.finalizado" mat-button class="read-more">Concluida</button>
     <span class="spacer"></span>
     <button *ngIf="!task.finalizado" mat-icon-button>
-      <mat-icon (click) = "edit(task)">create</mat-icon>
+      <mat-icon (click)="edit(task)">create</mat-icon>
     </button>
     <button mat-icon-button>
-      <mat-icon>delete_sweep</mat-icon>
+      <mat-icon (click)="delete(task)">delete_sweep</mat-icon>
     </button>
-	<button *ngIf="!task.finalizado" mat-icon-button>
-      <mat-icon>check</mat-icon>
+    <button *ngIf="!task.finalizado" mat-icon-button>
+      <mat-icon (click)="complete(task)">check</mat-icon>
     </button>
   </mat-card-actions>
-</mat-card>
+  </mat-card>
