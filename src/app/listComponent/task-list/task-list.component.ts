@@ -4,40 +4,41 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ITask } from '../../models';
 import { Router } from '@angular/router';
-import { TaskItemComponent } from '../task-item/task-item.component';
-import { TaskService } from '../task.service';
+import { TaskDetailComponent } from '../task-detail/task-detail.component';
+
 import { ConfirmationComponent } from '../../confirmation/confirmation.component';
+import { TaskService } from '../Task.service';
 
 
 @Component({
-	selector: 'app-task-list',
+	selector: 'task-list',
+	  standalone: true,
 	imports: [
 		MatButtonModule,
 		MatFormFieldModule, 
 		MatIconModule, 
 		MatInputModule, 
 		MatCardModule, 
-		 
 		FormsModule, 
 		CommonModule, 
 		MatDialogModule, 
 		ReactiveFormsModule,
 		MatTooltipModule,
-		TaskItemComponent
+		TaskDetailComponent
 	],
 	templateUrl: './task-list.component.html',
 	styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent implements OnInit {
 
-	todoList: ITask[];
+	todoList: ITask[] = [];
 	formTask: FormGroup;
 
 	constructor(
@@ -46,14 +47,15 @@ export class TaskListComponent implements OnInit {
 		private router: Router
 	) {
 		this.formTask = new FormGroup({});
-		this.todoList = this.service.getTaskList();
 	}
 
 	ngOnInit(): void {
+		this.service.getTaskListDbJson().subscribe(
+			data => { this.todoList = data }
+		)
+		
 	}
 	
-	selectedIndex: number = -1;
-
     onTaskEditing(task:ITask ){
        this.router.navigate(['/newTask', task.id, task.nombre, task.descripcion]);
 	}
@@ -63,7 +65,10 @@ export class TaskListComponent implements OnInit {
 		  width: '250px'
 		}).afterClosed().subscribe((res: any) => {
 		  if (res === 'Si') {
-			this.service.deleteTask(id);
+			 
+			 this.service.deleteTaskDbJson(id).subscribe(() => {
+				this.todoList = this.todoList.filter(u => u.id !== id);
+			 });
 		  }
 		});
 	}
@@ -73,7 +78,12 @@ export class TaskListComponent implements OnInit {
 		  width: '250px'
 		}).afterClosed().subscribe((res: any) => {
 		  if (res === 'Si') {
-			this.service.completeTask(id);
+
+			const task = this.todoList.filter(u => u.id === id)[0];
+			task.finalizado = true;
+			this.service.editTaskDbJson(task).subscribe((objeto:ITask) => {
+			
+			});
 		  }
 		});
 	}

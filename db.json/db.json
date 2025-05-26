@@ -1,0 +1,34 @@
+{
+  "tasks": [
+    {
+      "id": "41c2db29-c427-4a21-8376-c54f947e4701",
+      "nombre": "Tarea 1",
+      "descripcion": "TAREA 1 Editada nuevamente",
+      "finalizado": true
+    },
+    {
+      "id": "41c2db29-c427-4a21-8376-c54f947e470b",
+      "nombre": "Tarea 2",
+      "descripcion": "descripcion tarea 2",
+      "finalizado": true
+    },
+    {
+      "id": "41c2db29-c427-4a21-8376-c54f947e470c",
+      "nombre": "Tarea 3",
+      "descripcion": "descripcion tarea 3",
+      "finalizado": true
+    },
+    {
+      "id": "e58cafc0-362f-4afe-ada5-633014cb89d2",
+      "nombre": "Comer Sano",
+      "descripcion": "Coner proteinas y vitaminas",
+      "finalizado": true
+    },
+    {
+      "id": "68fc0359-8c05-49da-97cd-ff00cb57a170",
+      "nombre": "Presentar Practica 6",
+      "descripcion": "Descripcion",
+      "finalizado": false
+    }
+  ]
+}

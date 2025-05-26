@@ -4,21 +4,18 @@
 			<mat-card-title class="text-center">Lista de tareas</mat-card-title>
 		</mat-card-header>
 		<mat-card-content>
-		
-			
+					
 			<div *ngIf="todoList.length === 0" class="w-100 text-danger text-center">Sin tareas</div>
 			
 			<div class="card-container">
 
-				<task-item *ngFor="let tarea of todoList" 
+				<task-detail *ngFor="let tarea of todoList" 
 				           [task]="tarea" 
 				           (onTaskEditing)="onTaskEditing($event)" 
 						   (onTaskDelete)="onTaskDelete($event)"
 						   (onTaskComplete)="onTaskComplete($event)"
 						   >
-				</task-item>
-
-			
+				</task-detail>		
 </div>
 
 		</mat-card-content>

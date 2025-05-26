@@ -9,15 +9,15 @@ import { ActivatedRoute } from '@angular/router';
 import { ITask } from '../../models';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
-import { TaskService } from '../task.service';
+import { TaskService } from '../Task.service';
 
 @Component({
-  selector: 'app-task-new-component',
+  selector: 'task-form-component',
   imports: [MatIconModule, MatCardModule, MatInputModule, MatCheckboxModule, ReactiveFormsModule],
-  templateUrl: './task-new.component.html',
-  styleUrl: './task-new.component.scss'
+  templateUrl: './task-form.component.html',
+  styleUrl: './task-form.component.scss'
 })
-export class TaskNewComponent implements OnInit {
+export class TaskFormComponent implements OnInit {
 
 
     constructor(
@@ -39,31 +39,28 @@ editing: boolean = false;
 	
     const params = this.route.snapshot.params as ITask;
 	this.editing = !!params.id;
-	console.log(this.editing);	
 	this.formBuilder(params.id, params.nombre, params.descripcion);
   }
-
-
-    selectedIndex: number = -1;
-
-    checkmarkChanged(id: string): void {
-     this.todoList = this.todoList.filter((i) => i.id === id);
-	}
-  	
+      	
 	save(): void {
 		if (this.formTask.valid) {
 			this.editing ? this.edit() : this.create();
 		}
 	}
 	create() {
-		this.service.addNewTask(this.formTask.value);
-		this.formTask.reset();
-		this.formBuilder("","","");
+
+		this.service.addNewTaskDbJson(this.formTask.value).subscribe((objeto:ITask) => {
+			this.formTask.reset();
+			this.formBuilder("","","");
+		});
+		//this.service.addNewTask(this.formTask.value);
 		return;
 	}
 	edit() {
-		this.service.editTask(this.formTask.value)
-		this.router.navigate(['/todoList']);
+		this.service.editTaskDbJson(this.formTask.value).subscribe((objeto:ITask) => {
+			this.router.navigate(['/todoList']);
+		});
+		//this.service.editTask(this.formTask.value)
 		return;
 	}
 	cancel = () => this.editing ? this.router.navigate(['/todoList']) : this.formTask.reset();
@@ -72,8 +69,8 @@ editing: boolean = false;
     const nuevoId = uuidv4();
     this.formTask = this.formbuilder.group({
       id: [ this.editing? id: nuevoId],
-      nombre: [nombre, [Validators.required, Validators.minLength(5), Validators.maxLength(15),]],
-      descripcion: [detalle, [Validators.required, Validators.minLength(5), Validators.maxLength(50),]],
+      nombre: [nombre, [Validators.required, Validators.minLength(5), Validators.maxLength(20),]],
+      descripcion: [detalle, [Validators.required, Validators.minLength(5), Validators.maxLength(100),]],
       finalizado: [false]
     });
   }
