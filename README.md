@@ -9,3 +9,10 @@ To start a local development server, run:
 ```bash
 ng serve
 ```
+
+## 📦 Simular API con `json-server` - -Cómo ejecutar el proyecto
+
+"scripts": {
+  "api": "json-server --watch db.json --port 3000"
+}
+
